@@ -1,0 +1,47 @@
+# List of riak servers
+servers:
+  - host: "myDebian.sandbox.appdynamics.com"
+    port: 8098
+    displayName: myDebian
+
+  - host: "myUbuntu.sandbox.appdynamics.com"
+    port: 8098
+    displayName: myUbuntu
+
+
+metrics: [
+  "node_gets",
+  "node_gets_total",
+  "node_puts",
+  "node_puts_total",
+  "vnode_gets",
+  "vnode_gets_total",
+  "vnode_puts_total",
+  "memory_processes_used",
+  "sys_process_count",
+  "pbc_connect",
+  "pbc_active"
+]
+
+
+#prefix used to show up metrics in AppDynamics
+metricPrefix:  "Custom Metrics|Riak|"
+
+# number of concurrent tasks
+numberOfThreads: 10
+
+#timeout for the thread in seconds
+threadTimeout: 30
+
+#configuration for making http calls
+httpConfig: {
+  use-ssl : false,
+  proxy-host : "",
+  proxy-port : "",
+  proxy-username : "",
+  proxy-password : "",
+  proxy-use-ssl : "",
+  socket-timeout : 10, # in seconds
+  connect-timeout : 10 # in seconds
+}
+

@@ -1,0 +1,15 @@
+# Configure the SQLMonitor POSTGRES
+servers:
+    - server: "localhost"
+      driver: "com.mysql.jdbc.Driver"
+      connectionString: "jdbc:mysql://localhost:3388/controller?noDatetimeStringSync=true"
+      user: "root"
+      password: "password"
+
+commands:
+- command: "select count(*) from controller.metric;"
+  displayPrefix: "EDMS req 1"
+
+
+# Make sure the metric prefix ends with a |
+metricPrefix: "Custom Metrics|PAMS|"
