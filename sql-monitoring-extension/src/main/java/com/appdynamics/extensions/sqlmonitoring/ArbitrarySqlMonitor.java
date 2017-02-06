@@ -12,8 +12,13 @@ import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
 import com.singularity.ee.agent.systemagent.api.TaskOutput;
 import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+
+
+import org.apache.log4j.Logger;
+
+
 import org.joda.time.DateTime;
 
 import java.io.File;
@@ -28,8 +33,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigInteger;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Maps;
@@ -40,7 +43,9 @@ public class ArbitrarySqlMonitor extends AManagedMonitor
     public static final String CONFIG_ARG = "config-file";
     public static final String LOG_PREFIX = "log-prefix";
     private static String logPrefix;
-    private static final Log logger = LogFactory.getLog(ArbitrarySqlMonitor.class);
+//    private static final Log logger = LogFactory.getLog(ArbitrarySqlMonitor.class);
+    private static final Logger logger = Logger.getLogger(ArbitrarySqlMonitor.class);
+
     private String metricPath;  
     private String dateStampFromFile = null; 
     private String relativePath = null;
@@ -162,8 +167,9 @@ public class ArbitrarySqlMonitor extends AManagedMonitor
 
             try 
             {
-            	      		       		
-                Configuration config = YmlReader.readFromFile(configFilename, Configuration.class);
+            	     
+            	Object obj = YmlReader.readFromFile(configFilename, Configuration.class);
+                Configuration config = (Configuration) obj;
 
                 if (config.getCommands().isEmpty()) 
                 {
@@ -531,8 +537,8 @@ public class ArbitrarySqlMonitor extends AManagedMonitor
 
 	private void writemetric( String metricPath, String metricValue) {
 		String aggregationType = MetricWriter.METRIC_AGGREGATION_TYPE_OBSERVATION;
-		String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_CURRENT;
-		String clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE;                 	
+		String timeRollup = MetricWriter.METRIC_TIME_ROLLUP_TYPE_AVERAGE; //METRIC_TIME_ROLLUP_TYPE_CURRENT
+		String clusterRollup = MetricWriter.METRIC_CLUSTER_ROLLUP_TYPE_INDIVIDUAL;           // use METRIC_CLUSTER_ROLLUP_TYPE_COLLECTIVE   	
 		MetricWriter writer = getMetricWriter(metricPath, aggregationType, timeRollup, clusterRollup);                    	
 		writer.printMetric(metricValue);
 	}
