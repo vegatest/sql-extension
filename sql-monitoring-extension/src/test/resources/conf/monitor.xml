@@ -1,24 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <monitor>
-    <name>riak-monitor</name>
+    <name>EDMSSQLMonitor</name>
     <type>managed</type>
-    <description>Riak Monitoring Extension</description>
+    <enabled>true</enabled>
+    <description>Run arbitary queries and monitor their return values</description>
     <monitor-configuration></monitor-configuration>
     <monitor-run-task>
         <execution-style>periodic</execution-style>
         <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
-        <name>Riak Monitor Run task</name>
-        <display-name>Riak Monitor Run task</display-name>
-        <description>This extension monitors the configured Riak nodes.</description>
+        <name>SQLMonitor Task</name>
+        <display-name>SQLMonitor Task</display-name>
+        <description>SQLMonitor Task</description>
         <type>java</type>
-        <execution-timeout-in-secs>60</execution-timeout-in-secs>
+        <execution-timeout-in-seconds>4800</execution-timeout-in-seconds>
         <task-arguments>
             <!-- config file-->
-            <argument name="config-file" is-required="true" default-value="monitors/RiakMonitor/config.yml" />
-            <argument name="log-prefix" is-required="false" default-value="[RiakAppDExt] " />
+            <argument name="config-file" is-required="true" default-value="monitors/EDMSReportMonitor/config.yml"/>
+            <argument name="log-prefix" is-required="false" default-value="[EDMSReportMonitor] " />
+            <argument name="timestamp-file" is-required="false" default-value="monitors/EDMSReportMonitor/timestamp.txt"/>
+			<!--argument name="machineAgent-relativePath" is-required="false" default-value="c:\\LocalApps\\AppDynamics\\MachineAgent\\monitors\\EDMSReportMonitor\\"/-->
+			<argument name="timeper_in_sec" is-required="false" default-value="180"/>
+			<argument name="execution_freq_in_secs" is-required="false" default-value="60"/>
         </task-arguments>
-        <java-task>
-            <classpath>riak-monitoring-extension.jar</classpath>
-            <impl-class>com.appdynamics.extensions.riak.RiakMonitor</impl-class>
-        </java-task>
+		<java-task>
+      <classpath>
+       lib/joda-time-2.0.jar;lib/mysql-connector-java-5.1.40-bin.jar;ArbitrarySqlMonitor.jar;lib/commons-lang-2.4.jar;lib/commons-logging-1.1.1.jar;lib/machineagent.jar;lib/snakeyaml-1.13.jar;lib/appd-exts-commons-1.1.5.jar;lib/slf4j-api-1.7.12.jar;lib/slf4j-simple-1.7.12.jar;lib/guava.jar
+      </classpath>
+      <impl-class>com.appdynamics.extensions.sqlmonitoring.ArbitrarySqlMonitor</impl-class>
+    </java-task>
     </monitor-run-task>
+    
 </monitor>
